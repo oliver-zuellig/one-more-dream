@@ -11,6 +11,12 @@
   --color-muted: #55645b;
   --color-accent: #b5443b;
   --color-sun: #f2d27a;
+  --color-wood-ink: #4a2c17;
+  --color-golden: #fbe6bf;
+  --color-golden-deep: #f2c48a;
+  --color-wood: #5a3a22;
+  --color-wood-dark: #2e1b0e;
+  --color-footer: #f3e2c3;
   --radius: 12px;
   --tap-size: 44px;
 
@@ -34,7 +40,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--color-paper);
+  background: var(--color-wood-dark);
 }
 
 h1,
@@ -55,14 +61,26 @@ p {
   border: 0;
 }
 
+/* Page in golden-hour light above the scene and dark wood below it, like the plank and panel. */
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 16px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-golden) 0,
+    var(--color-golden-deep) 25%,
+    var(--color-wood) 60%,
+    var(--color-wood-dark) 100%
+  );
+  padding: 16px 0;
   gap: 16px;
+}
+
+.site-header,
+.site-footer {
+  width: min(100% - 32px, 1100px);
+  margin-inline: auto;
 }
 
 /* Header */
@@ -76,47 +94,45 @@ p {
 }
 
 .site-header__title {
-  color: var(--color-forest-dark);
+  color: var(--color-wood-ink);
   font-size: clamp(1.6rem, 6vw, 2.2rem);
   line-height: 1.1;
 }
 
 .site-header__subtitle {
-  color: var(--color-muted);
+  color: var(--color-wood);
 }
 
-/* Buttons */
+/* Buttons: the owner's wooden plank, stretched as a 9-slice so the rope and bolts stay sharp. */
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: var(--tap-size);
-  min-height: var(--tap-size);
-  padding: 10px 20px;
-  border: 2px solid var(--color-forest);
-  border-radius: 999px;
-  background: var(--color-forest);
-  color: var(--color-paper);
+  min-height: 52px;
+  padding: 12px 30px;
+  border: 0 solid transparent;
+  border-image: url('../art/plank-button.webp') 34% 14.5% fill / 18px 21px;
+  background: none;
+  color: var(--color-wood-ink);
   font: inherit;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
 }
 
 .button:hover {
-  background: var(--color-forest-dark);
-  border-color: var(--color-forest-dark);
+  filter: brightness(1.07);
+}
+
+.button:active {
+  transform: translateY(1px);
+  filter: brightness(0.95);
 }
 
 .button--secondary {
-  background: transparent;
-  color: var(--color-forest-dark);
-}
-
-.button--secondary:hover {
-  background: var(--color-forest);
-  color: var(--color-paper);
+  font-weight: 600;
 }
 
 .button:focus-visible {
@@ -124,20 +140,74 @@ p {
   outline-offset: 3px;
 }
 
-/* Game */
+/* Game: the lake scene is the stage, the panel sits on it. */
 
-.game {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1;
+.stage {
+  position: relative;
 }
 
+.stage__scene {
+  position: relative;
+  height: clamp(320px, 55svh, 640px);
+  overflow: hidden;
+  container-type: size;
+}
+
+/*
+ * Cover the stage like `object-fit: cover`, but keep the dock and fisherman in view: when the
+ * sides are cropped, the image is centred on 40% of its width instead of 50%.
+ */
 .lake-scene {
+  --scene-width: max(100cqw, 100cqh * 1672 / 941);
+  --scene-height: calc(var(--scene-width) * 941 / 1672);
+
+  position: absolute;
+  top: clamp(100cqh - var(--scene-height), 50cqh - var(--scene-height) / 2, 0px);
+  left: clamp(100cqw - var(--scene-width), 50cqw - var(--scene-width) * 0.4, 0px);
   display: block;
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
+  width: var(--scene-width);
+  height: var(--scene-height);
+}
+
+/* Phones and narrow tablets: the panel overlaps the bottom of the scene, over the water. */
+.game__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: min(100% - 24px, 480px);
+  margin: -96px auto 0;
+  padding: 34px 40px 40px 34px;
+  border: 0 solid transparent;
+  border-image: url('../art/parchment-panel.webp') 20% 28% 24.5% 25% fill / 29px 56px 36px 50px;
+}
+
+/* Wide screens: the panel floats over the open lake, right of the dock. */
+@media (min-width: 900px) {
+  .stage__scene {
+    height: max(420px, 75svh);
+  }
+
+  .game__panel {
+    position: absolute;
+    top: 50%;
+    right: max(16px, 4%);
+    width: clamp(340px, 36%, 480px);
+    max-height: calc(100% - 32px);
+    margin: 0;
+    overflow-y: auto;
+    transform: translateY(-50%);
+  }
+}
+
+.game__intro {
+  font-size: 1.1rem;
+}
+
+.game__hint {
+  color: var(--color-muted);
+  font-style: italic;
 }
 
 .reel {
@@ -145,13 +215,14 @@ p {
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 16px;
+  width: 100%;
 }
 
 .reel-meter {
   flex: 1 1 10rem;
   height: 18px;
   overflow: hidden;
-  border: 2px solid var(--color-forest-dark);
+  border: 2px solid var(--color-wood-ink);
   border-radius: 9px;
   background: var(--color-paper);
 }
@@ -167,32 +238,11 @@ p {
   letter-spacing: 0.06em;
 }
 
-.game__panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.game__intro {
-  font-size: 1.1rem;
-}
-
-.game__hint {
-  color: var(--color-muted);
-  font-style: italic;
-}
-
-/* Catch card and finale */
+/* Catch card and finale: they live on the parchment panel. */
 
 .catch-card,
 .finale {
   width: 100%;
-  padding: 16px 20px;
-  border: 1px solid var(--color-pine);
-  border-left: 6px solid var(--color-accent);
-  border-radius: var(--radius);
-  background: #fff;
 }
 
 .catch-card__name,
@@ -233,15 +283,11 @@ p {
 /* Footer */
 
 .site-footer {
-  color: var(--color-muted);
+  color: var(--color-footer);
   font-size: 0.85rem;
 }
 
 @media (max-width: 400px) {
-  .app {
-    padding: 12px;
-  }
-
   .finale__actions .button {
     flex: 1 1 100%;
   }
