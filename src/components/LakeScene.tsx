@@ -9,11 +9,14 @@ type Props = {
 /** Size of the background image; the scene uses its pixels as coordinates. */
 const SCENE = { width: 1672, height: 941 }
 
-/** The fisherman sprite sheet: 4 × 4 frames, numbered 1–16 row by row. */
-const SHEET = { columns: 4, frameWidth: 316, frameHeight: 312, width: 1264, height: 1248 }
+/**
+ * The fisherman sprite sheet: 4 × 4 frames, numbered 1–16 row by row. Every frame has the boots at
+ * the same spot (x 100, y 285), so switching frames never moves him.
+ */
+const SHEET = { columns: 4, frameWidth: 340, frameHeight: 300, width: 1360, height: 1200 }
 
 /** Where the fisherman stands: on the end of the dock. */
-const FISHER_BOX = { x: 640, y: 260, width: 221, height: 218 }
+const FISHER_BOX = { x: 660, y: 258, width: 238, height: 210 }
 
 /** Still frame per phase. Frames 5–8 (waiting) only appear in the animation. */
 const FRAME_BY_PHASE: Record<Phase, number> = {

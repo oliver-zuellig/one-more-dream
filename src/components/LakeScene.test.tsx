@@ -30,8 +30,8 @@ describe('LakeScene', () => {
   })
 
   it('crops the sprite sheet to the frame of the phase', () => {
-    // 4 columns of 316 × 312 px: frame 11 is column 3, row 3.
+    // 4 columns of 340 × 300 px: frame 11 is column 3, row 3.
     const fisher = renderScene('reeling').querySelector('#fisherman')
-    expect(fisher).toHaveAttribute('viewBox', '632 624 316 312')
+    expect(fisher).toHaveAttribute('viewBox', '680 600 340 300')
   })
 })
