@@ -140,66 +140,6 @@ p {
   border-radius: var(--radius);
 }
 
-.lake-scene .sky {
-  fill: var(--color-sky);
-}
-
-.lake-scene .sun {
-  fill: var(--color-sun);
-}
-
-.lake-scene .pine {
-  fill: var(--color-pine);
-}
-
-.lake-scene .cabin__wall {
-  fill: var(--color-accent);
-}
-
-.lake-scene .cabin__roof {
-  fill: var(--color-forest-dark);
-}
-
-.lake-scene .lake {
-  fill: var(--color-lake);
-}
-
-.lake-scene .shore {
-  fill: var(--color-shore);
-}
-
-.lake-scene .fisherman__head {
-  fill: #e7c3a1;
-}
-
-.lake-scene .fisherman__body {
-  fill: var(--color-forest-dark);
-}
-
-.lake-scene .rod {
-  stroke: #6b4b2e;
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-
-.lake-scene .fishing-line {
-  fill: none;
-  stroke: var(--color-ink);
-  stroke-width: 1;
-}
-
-.lake-scene .bobber {
-  fill: var(--color-accent);
-  stroke: var(--color-paper);
-  stroke-width: 1.5;
-}
-
-.lake-scene .catch-splash {
-  fill: none;
-  stroke: var(--color-paper);
-  stroke-width: 2;
-}
-
 .game__panel {
   display: flex;
   flex-direction: column;

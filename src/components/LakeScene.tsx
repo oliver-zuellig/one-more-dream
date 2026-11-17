@@ -1,65 +1,61 @@
+import fisherSheet from '../art/fisher-16f.webp'
+import background from '../art/lakeside-cabin.webp'
 import type { Phase } from '../game/types'
 
 type Props = {
   readonly phase: Phase
 }
 
+/** Size of the background image; the scene uses its pixels as coordinates. */
+const SCENE = { width: 1672, height: 941 }
+
 /**
- * Placeholder lake scene. Decorative only: everything it shows is also in the text. Part ids and
- * class names match the layers of the later Inkscape art so it can replace this file piece by piece.
+ * The fisherman sprite sheet: 4 × 4 frames, numbered 1–16 row by row. Every frame has the boots at
+ * the same spot (x 100, y 285), so switching frames never moves him.
  */
+const SHEET = { columns: 4, frameWidth: 340, frameHeight: 300, width: 1360, height: 1200 }
+
+/** Where the fisherman stands: on the end of the dock. */
+const FISHER_BOX = { x: 633, y: 240, width: 238, height: 210 }
+
+/** Still frame per phase. Frames 5–8 (waiting) only appear in the animation. */
+const FRAME_BY_PHASE: Record<Phase, number> = {
+  intro: 1,
+  casting: 3,
+  nibbling: 9,
+  reeling: 11,
+  revealing: 15,
+  finale: 16,
+}
+
+function frameViewBox(frame: number) {
+  const index = frame - 1
+  const x = (index % SHEET.columns) * SHEET.frameWidth
+  const y = Math.floor(index / SHEET.columns) * SHEET.frameHeight
+  return `${x} ${y} ${SHEET.frameWidth} ${SHEET.frameHeight}`
+}
+
+/** Lake scene with the owner's pixel art. Decorative only: everything it shows is also in the text. */
 export function LakeScene({ phase }: Props) {
-  const lineOut = phase === 'casting' || phase === 'nibbling' || phase === 'reeling'
-  const caughtSomething = phase === 'revealing' || phase === 'finale'
+  const frame = FRAME_BY_PHASE[phase]
   return (
     <svg
       className={`lake-scene lake-scene--${phase}`}
       data-phase={phase}
-      viewBox="0 0 400 240"
+      viewBox={`0 0 ${SCENE.width} ${SCENE.height}`}
       aria-hidden="true"
       focusable="false"
     >
-      <g id="sky">
-        <rect className="sky" width="400" height="140" />
-        <circle className="sun" cx="320" cy="44" r="18" />
-      </g>
-      <g id="forest">
-        <polygon className="pine" points="40,120 58,62 76,120" />
-        <polygon className="pine" points="70,124 92,50 114,124" />
-        <polygon className="pine" points="250,122 268,70 286,122" />
-        <polygon className="pine" points="350,124 370,58 390,124" />
-      </g>
-      <g id="cabin">
-        <rect className="cabin__wall" x="292" y="100" width="40" height="24" />
-        <polygon className="cabin__roof" points="288,102 312,84 336,102" />
-      </g>
-      <rect id="lake" className="lake" y="120" width="400" height="120" />
-      <path id="shore" className="shore" d="M0,170 Q60,150 120,168 L120,240 L0,240 Z" />
-      <g id="fisherman" className="fisherman">
-        <circle className="fisherman__head" cx="70" cy="128" r="8" />
-        <rect className="fisherman__body" x="63" y="136" width="14" height="24" rx="4" />
-      </g>
-      <line
-        id="rod"
-        className="rod"
-        x1="76"
-        y1="142"
-        x2={lineOut ? '140' : '120'}
-        y2={lineOut ? '104' : '96'}
-      />
-      {lineOut && (
-        <g id="cast">
-          <path id="fishing-line" className="fishing-line" d="M140,104 Q200,110 230,176" />
-          <circle
-            id="bobber"
-            className={`bobber${phase === 'nibbling' ? ' bobber--nibbling' : ''}`}
-            cx="230"
-            cy="178"
-            r="5"
-          />
-        </g>
-      )}
-      {caughtSomething && <circle id="catch" className="catch-splash" cx="200" cy="176" r="14" />}
+      <image href={background} width={SCENE.width} height={SCENE.height} />
+      <svg
+        id="fisherman"
+        data-frame={frame}
+        {...FISHER_BOX}
+        viewBox={frameViewBox(frame)}
+        preserveAspectRatio="none"
+      >
+        <image href={fisherSheet} width={SHEET.width} height={SHEET.height} />
+      </svg>
     </svg>
   )
 }

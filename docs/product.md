@@ -21,7 +21,7 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 - Profile panel ("Hi, I'm Oliver.") with a photo the owner supplies, reachable in one click from every state. Links to GitHub and LinkedIn from `src/content/links.json`; empty ones are hidden.
 - All catch texts and copy live in `src/content/`, not in game logic.
 - Accessibility: keyboard and touch, visible focus, live region announcing catches, `prefers-reduced-motion` shows results without decorative delay, controls at least 44×44 px.
-- Original SVG illustrations (lake, fisherman, rod, bobber, four catches), editable in Inkscape.
+- Original pixel art by the owner (PNG, sprite sheets in `src/art/`): lakeside background, animated fisherman, sky and water overlays, catches.
 - Footer disclaimer: "An independent personal project by Oliver Züllig. Not affiliated with or endorsed by Spotify."
 - Deployed on GitHub Pages; works on direct entry and refresh.
 - Unit tests for reducer, catch order, finale and replay; one browser smoke test for the full flow and mobile layout.
@@ -52,7 +52,7 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 | Phase                | Content                                                                                                                                   | Done when                                                     |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | M1 Playable skeleton | Scaffold, content catalogue, reducer, placeholder scene, cast/reveal controls, finale, replay, profile panel, keyboard and reduced motion | Full playthrough works with placeholder art; unit tests green |
-| M2 Art and polish    | Inkscape SVG art, reel meter, cast/splash/reveal animations, profile photo, favicon, responsive layout, final copy, disclaimer, meta tags                                     | Looks finished on phone and desktop                           |
+| M2 Art and polish    | Owner's pixel art, reel meter, cast/splash/reveal animations, profile photo, favicon, responsive layout, final copy, disclaimer, meta tags                                     | Looks finished on phone and desktop                           |
 | M3 Publish           | Playwright smoke test, Pages workflow, README, link check with the owner                                                                  | Live URL works including refresh; all links verified          |
 
 ## Open questions
