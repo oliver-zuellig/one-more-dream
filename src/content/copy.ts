@@ -13,5 +13,17 @@ export const copy = {
     viewCode: 'View the code',
     replay: 'Replay',
   },
+  /** Short status line under the scene while a cast is in progress. */
+  phaseHints: {
+    casting: 'The line flies out over the lake…',
+    nibbling: 'Something is nibbling!',
+    reeling: 'Reeling in…',
+  },
+  /** Texts for the polite live region. */
+  announcements: {
+    caught: (name: string, headline: string) => `You caught: ${name}. ${headline}`,
+    finale: (name: string, headline: string) =>
+      `You caught: ${name}. ${headline}. ${dream.finaleLines.join(' ')}`,
+  },
   footer: `An independent personal project by Oliver Züllig. Not affiliated with or endorsed by ${dream.company}.`,
 } as const
