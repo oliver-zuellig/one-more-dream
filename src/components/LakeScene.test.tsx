@@ -17,26 +17,21 @@ describe('LakeScene', () => {
     expect(svg).toHaveAttribute('focusable', 'false')
   })
 
-  it.each<Phase>(['casting', 'nibbling', 'reeling'])('shows line and bobber while %s', (phase) => {
-    const svg = renderScene(phase)
-    expect(svg.querySelector('#fishing-line')).not.toBeNull()
-    expect(svg.querySelector('#bobber')).not.toBeNull()
-    expect(svg.querySelector('#catch')).toBeNull()
+  it.each<[Phase, number]>([
+    ['intro', 1],
+    ['casting', 3],
+    ['nibbling', 9],
+    ['reeling', 11],
+    ['revealing', 15],
+    ['finale', 16],
+  ])('shows the fisherman frame for %s', (phase, frame) => {
+    const fisher = renderScene(phase).querySelector('#fisherman')
+    expect(fisher).toHaveAttribute('data-frame', String(frame))
   })
 
-  it.each<Phase>(['intro', 'revealing', 'finale'])('keeps the line in while %s', (phase) => {
-    const svg = renderScene(phase)
-    expect(svg.querySelector('#fishing-line')).toBeNull()
-    expect(svg.querySelector('#bobber')).toBeNull()
-  })
-
-  it.each<Phase>(['revealing', 'finale'])('shows the catch splash while %s', (phase) => {
-    expect(renderScene(phase).querySelector('#catch')).not.toBeNull()
-  })
-
-  it('marks the bobber while a fish nibbles', () => {
-    const svg = renderScene('nibbling')
-    expect(svg.querySelector('#bobber')).toHaveClass('bobber--nibbling')
-    expect(renderScene('casting').querySelector('#bobber')).not.toHaveClass('bobber--nibbling')
+  it('crops the sprite sheet to the frame of the phase', () => {
+    // 4 columns of 316 × 312 px: frame 11 is column 3, row 3.
+    const fisher = renderScene('reeling').querySelector('#fisherman')
+    expect(fisher).toHaveAttribute('viewBox', '632 624 316 312')
   })
 })
