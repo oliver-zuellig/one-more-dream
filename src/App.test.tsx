@@ -2,7 +2,7 @@ import { act, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { App } from './App'
-import { getCatch, playthrough } from './content/catches'
+import { dreamTicket, getCatch, playthrough } from './content/catches'
 import { copy } from './content/copy'
 import { dream } from './content/dream'
 import { codeUrl, profile } from './content/profile'
@@ -44,7 +44,16 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers()
+  vi.restoreAllMocks()
 })
+
+function prefersReducedMotion() {
+  const original = window.matchMedia.bind(window)
+  vi.spyOn(window, 'matchMedia').mockImplementation((query: string) => ({
+    ...original(query),
+    matches: query.includes('prefers-reduced-motion: reduce'),
+  }))
+}
 
 describe('App', () => {
   it('shows the landing with title, subtitle, intro, cast button and footer', () => {
@@ -117,6 +126,56 @@ describe('App', () => {
 
     for (let i = 0; i < 3; i++) await catchOne(user, copy.actions.castAgain)
     expect(meetOliverInHeader()).toBeVisible() // finale
+  })
+
+  it('plays through by keyboard with reduced motion, focus following each step', async () => {
+    prefersReducedMotion()
+    const user = setup()
+
+    await user.tab()
+    expect(meetOliverInHeader()).toHaveFocus()
+    await user.tab()
+    expect(button(copy.actions.cast)).toHaveFocus()
+
+    for (const [i, id] of playthrough.entries()) {
+      await user.keyboard(i % 2 === 0 ? '{Enter}' : ' ')
+      wait(0)
+      expect(button(copy.actions.reel)).toHaveFocus()
+      await user.keyboard(i % 2 === 0 ? ' ' : '{Enter}')
+      wait(0)
+      // No decorative delay: the catch is there without advancing the clock.
+      expect(screen.getByRole('heading', { name: getCatch(id).headline })).toBeInTheDocument()
+      expect(button(copy.actions.castAgain)).toHaveFocus()
+    }
+
+    await user.keyboard('{Enter}')
+    wait(0)
+    await user.keyboard('{Enter}')
+    wait(0)
+    const finale = screen.getByRole('region', { name: dreamTicket.headline })
+    expect(within(finale).getByRole('heading', { level: 2 })).toHaveFocus()
+
+    await user.tab()
+    expect(within(finale).getByRole('button', { name: copy.actions.meetOliver })).toHaveFocus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByRole('dialog', { name: profile.heading })).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+    expect(within(finale).getByRole('button', { name: copy.actions.meetOliver })).toHaveFocus()
+
+    await user.tab()
+    if (codeUrl) await user.tab()
+    expect(button(copy.actions.replay)).toHaveFocus()
+    await user.keyboard('{Enter}')
+    expect(button(copy.actions.cast)).toHaveFocus()
+  })
+
+  it('does not steal focus from the profile while the game moves on', async () => {
+    const user = setup()
+    await user.click(button(copy.actions.cast))
+    await user.click(meetOliverInHeader())
+    wait(defaultDurations.casting)
+    expect(button(copy.actions.reel)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: profile.close })).toHaveFocus()
   })
 
   it('opens the profile without playing and closes it again', async () => {

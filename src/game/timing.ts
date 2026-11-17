@@ -18,6 +18,16 @@ export const defaultDurations: PhaseDurations = {
   reeling: 1000,
 }
 
+/**
+ * For `prefers-reduced-motion`: casting and reeling are pure decoration and resolve at once. The
+ * nibble keeps its length because it is the visitor's window to press "Reel in".
+ */
+export const reducedMotionDurations: PhaseDurations = {
+  casting: 0,
+  nibbling: defaultDurations.nibbling,
+  reeling: 0,
+}
+
 const timedActions: Partial<Record<Phase, [keyof PhaseDurations, GameAction]>> = {
   casting: ['casting', { type: 'BOBBER_LANDED' }],
   nibbling: ['nibbling', { type: 'REEL' }],
