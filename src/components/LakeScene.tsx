@@ -1,6 +1,21 @@
-import fisherSheet from '../art/fisher-16f.webp'
 import background from '../art/lakeside-cabin.webp'
 import type { Phase } from '../game/types'
+import {
+  FISHER_ANIMATIONS,
+  FISHER_BOX,
+  FISHER_SHEET,
+  SCENE_KEYFRAMES,
+  SKY_ANIMATION,
+  SKY_BOX,
+  SKY_SHEET,
+  WATER_ANIMATION,
+  WATER_BOX,
+  WATER_SHEET,
+  frameOffset,
+  type Box,
+  type Sheet,
+  type SpriteAnimation,
+} from './sceneSprites'
 
 type Props = {
   readonly phase: Phase
@@ -9,35 +24,53 @@ type Props = {
 /** Size of the background image; the scene uses its pixels as coordinates. */
 const SCENE = { width: 1672, height: 941 }
 
-/**
- * The fisherman sprite sheet: 4 × 4 frames, numbered 1–16 row by row. Every frame has the boots at
- * the same spot (x 100, y 285), so switching frames never moves him.
- */
-const SHEET = { columns: 4, frameWidth: 340, frameHeight: 300, width: 1360, height: 1200 }
-
-/** Where the fisherman stands: on the end of the dock. */
-const FISHER_BOX = { x: 633, y: 240, width: 238, height: 210 }
-
-/** Still frame per phase. Frames 5–8 (waiting) only appear in the animation. */
-const FRAME_BY_PHASE: Record<Phase, number> = {
-  intro: 1,
-  casting: 3,
-  nibbling: 9,
-  reeling: 11,
-  revealing: 15,
-  finale: 16,
+type SpriteProps = {
+  readonly id: string
+  readonly sheet: Sheet
+  readonly box: Box
+  readonly still: number
+  readonly animationName: string
+  readonly animation: SpriteAnimation
 }
 
-function frameViewBox(frame: number) {
-  const index = frame - 1
-  const x = (index % SHEET.columns) * SHEET.frameWidth
-  const y = Math.floor(index / SHEET.columns) * SHEET.frameHeight
-  return `${x} ${y} ${SHEET.frameWidth} ${SHEET.frameHeight}`
+/**
+ * One sprite: a window of one frame onto the sheet. Without animation (or with reduced motion,
+ * see `.sprite` in the CSS) it shows the still frame.
+ */
+function Sprite({ id, sheet, box, still, animationName, animation }: SpriteProps) {
+  const { x, y } = frameOffset(sheet, still)
+  const animated = animation.frames.length > 1 && animation.durationMs > 0
+  return (
+    <svg
+      id={id}
+      className="sprite"
+      data-frame={still}
+      {...box}
+      viewBox={`0 0 ${sheet.frameWidth} ${sheet.frameHeight}`}
+      preserveAspectRatio="none"
+    >
+      <image
+        href={sheet.href}
+        width={sheet.columns * sheet.frameWidth}
+        height={sheet.rows * sheet.frameHeight}
+        transform={`translate(${-x} ${-y})`}
+        style={
+          animated
+            ? {
+                animation: `${animationName} ${animation.durationMs}ms step-end ${
+                  animation.loop ? 'infinite' : '1 forwards'
+                }`,
+              }
+            : undefined
+        }
+      />
+    </svg>
+  )
 }
 
 /** Lake scene with the owner's pixel art. Decorative only: everything it shows is also in the text. */
 export function LakeScene({ phase }: Props) {
-  const frame = FRAME_BY_PHASE[phase]
+  const fisher = FISHER_ANIMATIONS[phase]
   return (
     <svg
       className={`lake-scene lake-scene--${phase}`}
@@ -46,16 +79,32 @@ export function LakeScene({ phase }: Props) {
       aria-hidden="true"
       focusable="false"
     >
+      <style>{SCENE_KEYFRAMES}</style>
       <image href={background} width={SCENE.width} height={SCENE.height} />
-      <svg
+      <Sprite
+        id="sky"
+        sheet={SKY_SHEET}
+        box={SKY_BOX}
+        still={1}
+        animationName="sky"
+        animation={SKY_ANIMATION}
+      />
+      <Sprite
+        id="water"
+        sheet={WATER_SHEET}
+        box={WATER_BOX}
+        still={1}
+        animationName="water"
+        animation={WATER_ANIMATION}
+      />
+      <Sprite
         id="fisherman"
-        data-frame={frame}
-        {...FISHER_BOX}
-        viewBox={frameViewBox(frame)}
-        preserveAspectRatio="none"
-      >
-        <image href={fisherSheet} width={SHEET.width} height={SHEET.height} />
-      </svg>
+        sheet={FISHER_SHEET}
+        box={FISHER_BOX}
+        still={fisher.still}
+        animationName={`fisher-${phase}`}
+        animation={fisher}
+      />
     </svg>
   )
 }
