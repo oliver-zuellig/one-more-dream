@@ -1,0 +1,20 @@
+#!/bin/sh
+# Pre-push quality gate. GitButler runs pre-push hooks on `but push` and `but pr new`,
+# but never runs pre-commit hooks, so this is the one local gate before code leaves the machine.
+# Activated per clone with: git config core.hooksPath .githooks
+# Bypass (`but push --no-hooks`) only with the owner's OK.
+
+root=$(git rev-parse --show-toplevel) || exit 1
+cd "$root" || exit 1
+checks=".githooks/checks"
+[ -f "$checks" ] || exit 0
+
+# Strip CR so the file also works with Windows line endings.
+tr -d '\r' < "$checks" | while IFS= read -r cmd || [ -n "$cmd" ]; do
+  case "$cmd" in ''|'#'*) continue ;; esac
+  echo "pre-push: $cmd" >&2
+  sh -c "$cmd" </dev/null || { echo "pre-push: FAILED: $cmd" >&2; exit 1; }
+done || exit 1
+
+grep -qv '^[[:space:]]*\(#\|$\)' "$checks" 2>/dev/null || echo "pre-push: no checks configured in $checks (see AGENTS.md)" >&2
+exit 0

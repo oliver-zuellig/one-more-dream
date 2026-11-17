@@ -1,0 +1,11 @@
+# Normalise line endings: LF in the repo, so agents on Windows and Unix produce clean diffs.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.pdf binary
+
+# Git hooks must keep LF and stay executable
+.githooks/* text eol=lf

@@ -1,0 +1,6 @@
+# Quality gate: one shell command per line, run in order from the repo root.
+# Used by .githooks/pre-push (every `but push` / `but pr new`) and by the CI workflow.
+npm test
+npm run typecheck
+npm run lint
+npm run format:check

@@ -1,0 +1,29 @@
+# Local scratch space: spikes, drafts, handoff notes
+.scratch/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Personal agent overrides
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md
+AGENTS.override.md
+
+# OS and editors
+.DS_Store
+Thumbs.db
+*:com.dropbox.*
+.idea/
+
+# Node / Vite
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+*.tsbuildinfo

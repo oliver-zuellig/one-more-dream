@@ -1,0 +1,58 @@
+# Product: One More Dream
+
+> Binding product description. Agents build from it; the owner resolves contradictions. Exact user-facing texts live in `src/content/`.
+
+## Goal
+
+A tiny browser fishing game that accompanies Oliver Züllig's application for a Senior Fullstack Engineer role at Spotify. The visitor casts a line, catches three items from Oliver's background and then the final message "My next dream: Working at Spotify." It is solved when a recruiter understands the page within five seconds, can finish it in 30–60 seconds, and can reach the same information without playing.
+
+## Users and environment
+
+Spotify recruiters and engineers, plus anyone viewing the public repository. Desktop and phone browsers (down to ~360 px wide), online. English only. No account, install or permissions.
+
+## Scope
+
+### Must (MVP)
+
+- Landing: lake scene, title, subtitle, opening copy, `Cast the line` button and an always visible `Meet Oliver` button.
+- Cast cycle: cast → bobber lands → nibble → `Reel in` (or auto reel after a short delay) → catch card with headline and story → cast again. No reflex or precision gates.
+- Exactly three normal catches without duplicates, then the final dream ticket on the fourth cast. Deterministic order in the MVP.
+- Finale message as in the spec, followed by `Meet Oliver`, `View the code` and `Replay`. Never implies a job offer or endorsement.
+- Profile panel ("Hi, I'm Oliver.") reachable in one click from every state. Links (GitHub, LinkedIn, CV PDF, email) only when the owner has supplied them; missing ones are hidden.
+- All catch texts and copy live in `src/content/`, not in game logic.
+- Accessibility: keyboard and touch, visible focus, live region announcing catches, `prefers-reduced-motion` shows results without decorative delay, controls at least 44×44 px.
+- Original SVG illustrations (lake, fisherman, rod, bobber, four catches), editable in Inkscape.
+- Footer disclaimer: "An independent personal project by Oliver Züllig. Not affiliated with or endorsed by Spotify."
+- Deployed on GitHub Pages; works on direct entry and refresh.
+- Unit tests for reducer, catch order, finale and replay; one browser smoke test for the full flow and mobile layout.
+
+### Later
+
+- Opt-in original sound effects (default off).
+- Replay with a different catch order or the extra catches (AI duck, cabin).
+- Tackle-box collection, rare `404` fish, social preview image.
+
+### Explicitly not
+
+- Spotify logo, wordmark, green circle, music, album art or API.
+- Analytics, cookies, tracking, backend, database, leaderboards.
+- Multi-level game, physics simulation, game engine without a clear need.
+- Invented skills, credentials or URLs.
+
+## Constraints
+
+- Static site, no runtime calls to third parties.
+- All assets original.
+- Making the repository public and publishing the site happen with the owner's go.
+
+## Phases (become milestones)
+
+| Phase                | Content                                                                                                                                   | Done when                                                     |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| M1 Playable skeleton | Scaffold, content catalogue, reducer, placeholder scene, cast/reveal controls, finale, replay, profile panel, keyboard and reduced motion | Full playthrough works with placeholder art; unit tests green |
+| M2 Art and polish    | Inkscape SVG art, cast/splash/reveal animations, responsive layout, final copy, disclaimer, meta tags                                     | Looks finished on phone and desktop                           |
+| M3 Publish           | Playwright smoke test, Pages workflow, README, link check with the owner                                                                  | Live URL works including refresh; all links verified          |
+
+## Open questions
+
+- Real URLs for GitHub profile, LinkedIn, email and the CV PDF.
