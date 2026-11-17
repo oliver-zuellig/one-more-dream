@@ -8,9 +8,6 @@ import {
   SKY_ANIMATION,
   SKY_BOX,
   SKY_SHEET,
-  WATER_ANIMATION,
-  WATER_BOX,
-  WATER_SHEET,
   frameOffset,
   type Box,
   type Sheet,
@@ -88,14 +85,6 @@ export function LakeScene({ phase }: Props) {
         still={1}
         animationName="sky"
         animation={SKY_ANIMATION}
-      />
-      <Sprite
-        id="water"
-        sheet={WATER_SHEET}
-        box={WATER_BOX}
-        still={1}
-        animationName="water"
-        animation={WATER_ANIMATION}
       />
       <Sprite
         id="fisherman"

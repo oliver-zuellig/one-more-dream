@@ -1,6 +1,5 @@
 import fisherSheet from '../art/fisher-16f.webp'
 import skySheet from '../art/sky-overlay-8f.png'
-import waterSheet from '../art/water-highlights-8f.png'
 import { defaultDurations } from '../game/timing'
 import type { Phase } from '../game/types'
 
@@ -44,29 +43,15 @@ export const SKY_SHEET: Sheet = {
   frameWidth: 480,
   frameHeight: 270,
 }
-export const WATER_SHEET: Sheet = {
-  href: waterSheet,
-  columns: 4,
-  rows: 2,
-  frameWidth: 393,
-  frameHeight: 220,
-}
 
 /** Where the fisherman stands: on the end of the dock. */
 export const FISHER_BOX: Box = { x: 633, y: 240, width: 238, height: 210 }
 /** Clouds drift over the sunset sky; only the right part of each frame has pixels. */
 export const SKY_BOX: Box = { x: 1000, y: 0, width: 480, height: 270 }
-/** Highlights on the open lake right of the dock, clear of dock, fisherman and far shore. */
-export const WATER_BOX: Box = { x: 790, y: 260, width: 590, height: 330 }
 
 export const SKY_ANIMATION: SpriteAnimation = {
   frames: [1, 2, 3, 4, 5, 6, 7, 8],
   durationMs: 3600,
-  loop: true,
-}
-export const WATER_ANIMATION: SpriteAnimation = {
-  frames: [1, 2, 3, 4, 5, 6, 7, 8],
-  durationMs: 1600,
   loop: true,
 }
 
@@ -110,6 +95,5 @@ const fisherKeyframes = (phase: Phase) =>
 /** All keyframes of the scene, built once from the frame tables above. */
 export const SCENE_KEYFRAMES = [
   keyframes('sky', SKY_SHEET, SKY_ANIMATION),
-  keyframes('water', WATER_SHEET, WATER_ANIMATION),
   ...(Object.keys(FISHER_ANIMATIONS) as Phase[]).map(fisherKeyframes),
 ].join('')

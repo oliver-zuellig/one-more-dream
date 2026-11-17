@@ -37,10 +37,9 @@ describe('LakeScene', () => {
     expect(image).toHaveAttribute('transform', 'translate(-680 -600)')
   })
 
-  it('animates clouds over the sky and highlights on the lake in every phase', () => {
+  it('animates clouds over the sky in every phase', () => {
     const svg = renderScene('intro')
     expect(svg.querySelector('#sky')).toBeInTheDocument()
-    expect(svg.querySelector('#water')).toBeInTheDocument()
   })
 })
 
