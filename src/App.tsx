@@ -70,79 +70,83 @@ export function App() {
       </header>
 
       <main className="game">
-        <LakeScene phase={phase} />
+        <div className="stage">
+          <div className="stage__scene">
+            <LakeScene phase={phase} />
+          </div>
 
-        <p role="status" className="visually-hidden">
-          {announcementFor(state)}
-        </p>
+          <p role="status" className="visually-hidden">
+            {announcementFor(state)}
+          </p>
 
-        <div ref={panelRef} className="game__panel" tabIndex={-1}>
-          {phase === 'intro' && (
-            <>
-              <p className="game__intro">{copy.intro}</p>
-              <button ref={actionRef} type="button" className="button" onClick={cast}>
-                {copy.actions.cast}
-              </button>
-            </>
-          )}
-
-          {(phase === 'casting' || phase === 'nibbling' || phase === 'reeling') && (
-            <>
-              <p className="game__hint">{copy.phaseHints[phase]}</p>
-              {(phase === 'nibbling' || phase === 'reeling') && (
-                // One element for both phases, so focus stays on "Reel in" while reeling.
-                <div className="reel">
-                  <button ref={actionRef} type="button" className="button" onClick={reel}>
-                    {copy.actions.reel}
-                  </button>
-                  {phase === 'reeling' && (
-                    <>
-                      <ReelMeter label={copy.reelMeter} progress={state.reelProgress} />
-                      <button type="button" className="button button--boost" onClick={boost}>
-                        {copy.actions.boost}
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-            </>
-          )}
-
-          {phase === 'revealing' && state.currentCatchId && (
-            <>
-              <CatchCard caught={getCatch(state.currentCatchId)} />
-              <button ref={actionRef} type="button" className="button" onClick={cast}>
-                {copy.actions.castAgain}
-              </button>
-            </>
-          )}
-
-          {phase === 'finale' && (
-            <section className="finale" aria-labelledby="finale-headline">
-              <p className="finale__name">{dreamTicket.name}</p>
-              <h2 ref={finaleRef} id="finale-headline" className="finale__headline" tabIndex={-1}>
-                {dreamTicket.headline}
-              </h2>
-              <div className="finale__message">
-                {dream.finaleLines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </div>
-              <div className="finale__actions">
-                <button type="button" className="button" onClick={openProfile}>
-                  {copy.actions.meetOliver}
+          <div ref={panelRef} className="game__panel" tabIndex={-1}>
+            {phase === 'intro' && (
+              <>
+                <p className="game__intro">{copy.intro}</p>
+                <button ref={actionRef} type="button" className="button" onClick={cast}>
+                  {copy.actions.cast}
                 </button>
-                {codeUrl && (
-                  <a className="button button--secondary" href={codeUrl}>
-                    {copy.actions.viewCode}
-                  </a>
+              </>
+            )}
+
+            {(phase === 'casting' || phase === 'nibbling' || phase === 'reeling') && (
+              <>
+                <p className="game__hint">{copy.phaseHints[phase]}</p>
+                {(phase === 'nibbling' || phase === 'reeling') && (
+                  // One element for both phases, so focus stays on "Reel in" while reeling.
+                  <div className="reel">
+                    <button ref={actionRef} type="button" className="button" onClick={reel}>
+                      {copy.actions.reel}
+                    </button>
+                    {phase === 'reeling' && (
+                      <>
+                        <ReelMeter label={copy.reelMeter} progress={state.reelProgress} />
+                        <button type="button" className="button button--boost" onClick={boost}>
+                          {copy.actions.boost}
+                        </button>
+                      </>
+                    )}
+                  </div>
                 )}
-                <button type="button" className="button button--secondary" onClick={replay}>
-                  {copy.actions.replay}
+              </>
+            )}
+
+            {phase === 'revealing' && state.currentCatchId && (
+              <>
+                <CatchCard caught={getCatch(state.currentCatchId)} />
+                <button ref={actionRef} type="button" className="button" onClick={cast}>
+                  {copy.actions.castAgain}
                 </button>
-              </div>
-            </section>
-          )}
+              </>
+            )}
+
+            {phase === 'finale' && (
+              <section className="finale" aria-labelledby="finale-headline">
+                <p className="finale__name">{dreamTicket.name}</p>
+                <h2 ref={finaleRef} id="finale-headline" className="finale__headline" tabIndex={-1}>
+                  {dreamTicket.headline}
+                </h2>
+                <div className="finale__message">
+                  {dream.finaleLines.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </div>
+                <div className="finale__actions">
+                  <button type="button" className="button" onClick={openProfile}>
+                    {copy.actions.meetOliver}
+                  </button>
+                  {codeUrl && (
+                    <a className="button button--secondary" href={codeUrl}>
+                      {copy.actions.viewCode}
+                    </a>
+                  )}
+                  <button type="button" className="button button--secondary" onClick={replay}>
+                    {copy.actions.replay}
+                  </button>
+                </div>
+              </section>
+            )}
+          </div>
         </div>
       </main>
 
