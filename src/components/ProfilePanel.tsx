@@ -50,6 +50,14 @@ export function ProfilePanel({ open, onClose, links = profileLinks }: Props) {
       }}
     >
       <div className="profile-panel__header">
+        <img
+          className="profile-panel__photo"
+          src={profile.photo}
+          alt={profile.photoAlt}
+          width={96}
+          height={96}
+          decoding="async"
+        />
         <h2 id={headingId} className="profile-panel__heading">
           {profile.heading}
         </h2>

@@ -37,6 +37,13 @@ describe('ProfilePanel', () => {
     expect(within(dialog).getByText(profile.personal)).toBeInTheDocument()
   })
 
+  it('shows the photo with its alt text and fixed dimensions', () => {
+    render(<ProfilePanel open onClose={() => {}} />)
+    const photo = within(screen.getByRole('dialog')).getByRole('img', { name: profile.photoAlt })
+    expect(photo).toHaveAttribute('width')
+    expect(photo).toHaveAttribute('height')
+  })
+
   it('calls onClose from the close button', async () => {
     const user = userEvent.setup()
     const onClose = vi.fn()

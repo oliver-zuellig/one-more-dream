@@ -29,7 +29,18 @@
   gap: 1rem;
 }
 
+.profile-panel__photo {
+  flex: none;
+  width: clamp(4.5rem, 20vw, 6rem);
+  height: clamp(4.5rem, 20vw, 6rem);
+  border: 2px solid var(--profile-forest);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .profile-panel__heading {
+  flex: 1;
+  align-self: center;
   margin: 0.4rem 0 0.5rem;
   color: var(--profile-forest);
   font-size: 1.5rem;
