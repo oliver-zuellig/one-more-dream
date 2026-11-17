@@ -16,7 +16,7 @@ const SCENE = { width: 1672, height: 941 }
 const SHEET = { columns: 4, frameWidth: 340, frameHeight: 300, width: 1360, height: 1200 }
 
 /** Where the fisherman stands: on the end of the dock. */
-const FISHER_BOX = { x: 660, y: 258, width: 238, height: 210 }
+const FISHER_BOX = { x: 615, y: 258, width: 238, height: 210 }
 
 /** Still frame per phase. Frames 5–8 (waiting) only appear in the animation. */
 const FRAME_BY_PHASE: Record<Phase, number> = {
