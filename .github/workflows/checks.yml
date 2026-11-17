@@ -1,0 +1,38 @@
+name: checks
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Run .githooks/checks
+        shell: bash
+        run: |
+          set -e
+          tr -d '\r' < .githooks/checks | while IFS= read -r cmd || [ -n "$cmd" ]; do
+            case "$cmd" in ''|'#'*) continue ;; esac
+            echo "::group::$cmd"
+            bash -c "$cmd"
+            echo "::endgroup::"
+          done
+      - run: npm run build
