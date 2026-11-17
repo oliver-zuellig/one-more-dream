@@ -1,4 +1,5 @@
 import links from './links.json'
+import photo from './profile-photo.webp'
 import type { ProfileLink } from './types'
 
 export const profile = {
@@ -8,6 +9,8 @@ export const profile = {
     'At Comsys Bärtsch AG, I helped build and maintain a building management platform, moved our control system to Docker, and worked on build and delivery pipelines, automated updates and tools for customer installations. I learned that the work does not end when software is released.',
   personal:
     'My family and I moved from Switzerland to Sweden in summer 2026. Music, curiosity and the occasional fishing trip are part of the story.',
+  photo,
+  photoAlt: 'Oliver, smiling, with a full beard and a blue polo shirt',
   close: 'Close',
   linksLabel: 'Find me online',
 } as const
