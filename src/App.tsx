@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { CatchCard } from './components/CatchCard'
 import { LakeScene } from './components/LakeScene'
 import { ProfilePanel } from './components/ProfilePanel'
+import { ReelMeter } from './components/ReelMeter'
 import { dreamTicket, getCatch, playthrough } from './content/catches'
 import { copy } from './content/copy'
 import { dream } from './content/dream'
@@ -47,7 +48,7 @@ function useFocusFollowsPhase(phase: Phase) {
 
 export function App() {
   const reducedMotion = useReducedMotion()
-  const { state, cast, reel, replay } = usePlaythrough(
+  const { state, cast, reel, boost, replay } = usePlaythrough(
     playthrough,
     reducedMotion ? reducedMotionDurations : defaultDurations,
   )
@@ -88,10 +89,21 @@ export function App() {
           {(phase === 'casting' || phase === 'nibbling' || phase === 'reeling') && (
             <>
               <p className="game__hint">{copy.phaseHints[phase]}</p>
-              {phase === 'nibbling' && (
-                <button ref={actionRef} type="button" className="button" onClick={reel}>
-                  {copy.actions.reel}
-                </button>
+              {(phase === 'nibbling' || phase === 'reeling') && (
+                // One element for both phases, so focus stays on "Reel in" while reeling.
+                <div className="reel">
+                  <button ref={actionRef} type="button" className="button" onClick={reel}>
+                    {copy.actions.reel}
+                  </button>
+                  {phase === 'reeling' && (
+                    <>
+                      <ReelMeter label={copy.reelMeter} progress={state.reelProgress} />
+                      <button type="button" className="button button--boost" onClick={boost}>
+                        {copy.actions.boost}
+                      </button>
+                    </>
+                  )}
+                </div>
               )}
             </>
           )}
