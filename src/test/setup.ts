@@ -25,3 +25,17 @@ if (typeof HTMLDialogElement.prototype.showModal !== 'function') {
     if (dialog.dispatchEvent(cancel)) dialog.close()
   })
 }
+
+// jsdom has no matchMedia. Default to "no preference"; tests spy on it to simulate one.
+if (typeof window.matchMedia !== 'function') {
+  window.matchMedia = (query: string): MediaQueryList => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
+  })
+}
