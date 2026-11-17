@@ -155,14 +155,15 @@ p {
 
 /*
  * Cover the stage like `object-fit: cover`, but keep the dock and fisherman in view: when the
- * sides are cropped, the image is centred on 40% of its width instead of 50%.
+ * sides are cropped, the image is centred on 40% of its width; when top and bottom are cropped,
+ * on 30% of its height, so the sky with its clouds stays and the rocks at the bottom go first.
  */
 .lake-scene {
   --scene-width: max(100cqw, 100cqh * 1672 / 941);
   --scene-height: calc(var(--scene-width) * 941 / 1672);
 
   position: absolute;
-  top: clamp(100cqh - var(--scene-height), 50cqh - var(--scene-height) / 2, 0px);
+  top: clamp(100cqh - var(--scene-height), 30cqh - var(--scene-height) * 0.3, 0px);
   left: clamp(100cqw - var(--scene-width), 50cqw - var(--scene-width) * 0.4, 0px);
   display: block;
   width: var(--scene-width);
@@ -243,6 +244,15 @@ p {
 .catch-card,
 .finale {
   width: 100%;
+  animation: reveal 320ms ease-out both;
+}
+
+/* The catch comes up out of the water. Reduced motion: shown at once (global guard below). */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
 }
 
 .catch-card__name,
@@ -301,5 +311,12 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Sprites hold their still frame: no movement at all. */
+@media (prefers-reduced-motion: reduce) {
+  .sprite image {
+    animation: none !important;
   }
 }
