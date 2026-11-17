@@ -140,6 +140,33 @@ p {
   border-radius: var(--radius);
 }
 
+.reel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.reel-meter {
+  flex: 1 1 10rem;
+  height: 18px;
+  overflow: hidden;
+  border: 2px solid var(--color-forest-dark);
+  border-radius: 9px;
+  background: var(--color-paper);
+}
+
+.reel-meter__fill {
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 120ms linear;
+}
+
+.button--boost {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
 .game__panel {
   display: flex;
   flex-direction: column;

@@ -9,10 +9,12 @@ export const copy = {
     cast: 'Cast the line',
     castAgain: 'Cast again',
     reel: 'Reel in',
+    boost: 'BOOST',
     meetOliver: 'Meet Oliver',
     viewCode: 'View the code',
     replay: 'Replay',
   },
+  reelMeter: 'Reel meter',
   /** Short status line under the scene while a cast is in progress. */
   phaseHints: {
     casting: 'The line flies out over the lake…',

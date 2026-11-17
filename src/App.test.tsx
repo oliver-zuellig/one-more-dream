@@ -30,7 +30,11 @@ async function catchOne(user: User, castLabel: string) {
   await user.click(button(castLabel))
   wait(defaultDurations.casting)
   await user.click(button(copy.actions.reel))
-  wait(defaultDurations.reeling)
+  await user.click(button(copy.actions.boost))
+}
+
+function reelMeter() {
+  return screen.getByRole('progressbar', { name: copy.reelMeter })
 }
 
 function meetOliverInHeader() {
@@ -102,6 +106,25 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: first.headline })).toBeInTheDocument()
   })
 
+  it('fills the reel meter per click, keeps focus on Reel in and lands the catch on BOOST', async () => {
+    const user = setup()
+    await user.click(button(copy.actions.cast))
+    wait(defaultDurations.casting)
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: copy.actions.boost })).not.toBeInTheDocument()
+
+    await user.click(button(copy.actions.reel))
+    expect(reelMeter()).toHaveAttribute('aria-valuenow', '10')
+    expect(button(copy.actions.reel)).toHaveFocus()
+    await user.click(button(copy.actions.reel))
+    expect(reelMeter()).toHaveAttribute('aria-valuenow', '20')
+
+    await user.click(button(copy.actions.boost))
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    const first = getCatch(playthrough[0])
+    expect(screen.getByRole('heading', { name: first.headline })).toBeInTheDocument()
+  })
+
   it('announces each catch in a polite live region', async () => {
     const user = setup()
     await catchOne(user, copy.actions.cast)
@@ -141,9 +164,18 @@ describe('App', () => {
       await user.keyboard(i % 2 === 0 ? '{Enter}' : ' ')
       wait(0)
       expect(button(copy.actions.reel)).toHaveFocus()
-      await user.keyboard(i % 2 === 0 ? ' ' : '{Enter}')
-      wait(0)
-      // No decorative delay: the catch is there without advancing the clock.
+      const key = i % 2 === 0 ? ' ' : '{Enter}'
+      await user.keyboard(key)
+      expect(reelMeter()).toBeInTheDocument()
+      expect(button(copy.actions.reel)).toHaveFocus()
+      if (i === 1) {
+        await user.tab()
+        expect(button(copy.actions.boost)).toHaveFocus()
+        await user.keyboard(key)
+      } else {
+        // Keep pressing Reel in until the meter is full.
+        while (screen.queryByRole('progressbar')) await user.keyboard(key)
+      }
       expect(screen.getByRole('heading', { name: getCatch(id).headline })).toBeInTheDocument()
       expect(button(copy.actions.castAgain)).toHaveFocus()
     }
@@ -151,7 +183,8 @@ describe('App', () => {
     await user.keyboard('{Enter}')
     wait(0)
     await user.keyboard('{Enter}')
-    wait(0)
+    await user.tab()
+    await user.keyboard('{Enter}')
     const finale = screen.getByRole('region', { name: dreamTicket.headline })
     expect(within(finale).getByRole('heading', { level: 2 })).toHaveFocus()
 

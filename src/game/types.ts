@@ -6,11 +6,17 @@ export type GameState = {
   readonly playthrough: readonly string[]
   readonly collectedCatchIds: readonly string[]
   readonly currentCatchId: string | null
+  /** Reel meter while reeling, from 0 to `REEL_FULL`. The catch lands when it is full. */
+  readonly reelProgress: number
 }
 
 export type GameAction =
   | { type: 'CAST' }
   | { type: 'BOBBER_LANDED' }
+  /** Starts reeling during the nibble; while reeling, fills the meter a step. */
   | { type: 'REEL' }
-  | { type: 'CATCH_LANDED' }
+  /** Fills the meter at once. */
+  | { type: 'BOOST' }
+  /** Slow auto fill, dispatched by a timer while reeling. */
+  | { type: 'REEL_TICK' }
   | { type: 'REPLAY' }
