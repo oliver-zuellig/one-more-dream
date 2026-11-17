@@ -12,6 +12,10 @@
   --color-accent: #b5443b;
   --color-sun: #f2d27a;
   --color-wood-ink: #4a2c17;
+  --color-dusk: #d9b8c9;
+  --color-sunset: #f0c6a4;
+  --color-night-forest: #1b2e27;
+  --color-footer: #e4ece6;
   --radius: 12px;
   --tap-size: 44px;
 
@@ -35,7 +39,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--color-paper);
+  background: var(--color-night-forest);
 }
 
 h1,
@@ -56,10 +60,18 @@ p {
   border: 0;
 }
 
+/* Page in the colours of the scene: sunset sky above it, dark forest below. */
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    var(--color-dusk) 0,
+    var(--color-sunset) 25%,
+    #2c4a3e 60%,
+    var(--color-night-forest) 100%
+  );
   padding: 16px 0;
   gap: 16px;
 }
@@ -87,7 +99,7 @@ p {
 }
 
 .site-header__subtitle {
-  color: var(--color-muted);
+  color: #4a3a3f;
 }
 
 /* Buttons: the owner's wooden plank, stretched as a 9-slice so the rope and bolts stay sharp. */
@@ -270,7 +282,7 @@ p {
 /* Footer */
 
 .site-footer {
-  color: var(--color-muted);
+  color: var(--color-footer);
   font-size: 0.85rem;
 }
 
