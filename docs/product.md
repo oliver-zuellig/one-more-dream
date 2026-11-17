@@ -18,7 +18,7 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 - Cast cycle: cast → bobber lands → nibble → `Reel in` (or auto reel after a short delay) → catch card with headline and story → cast again. No reflex or precision gates.
 - Exactly three normal catches without duplicates, then the final dream ticket on the fourth cast. Deterministic order in the MVP.
 - Finale message as in the spec, followed by `Meet Oliver`, `View the code` and `Replay`. Never implies a job offer or endorsement.
-- Profile panel ("Hi, I'm Oliver.") reachable in one click from every state. Links (GitHub, LinkedIn, CV PDF, email) only when the owner has supplied them; missing ones are hidden.
+- Profile panel ("Hi, I'm Oliver.") reachable in one click from every state. Links to GitHub and LinkedIn from `src/content/links.json`; empty ones are hidden.
 - All catch texts and copy live in `src/content/`, not in game logic.
 - Accessibility: keyboard and touch, visible focus, live region announcing catches, `prefers-reduced-motion` shows results without decorative delay, controls at least 44×44 px.
 - Original SVG illustrations (lake, fisherman, rod, bobber, four catches), editable in Inkscape.
@@ -28,12 +28,14 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 
 ### Later
 
+- Versions for other companies: a neutral finale and per-company content, each version only visible to its company.
 - Opt-in original sound effects (default off).
 - Replay with a different catch order or the extra catches (AI duck, cabin).
 - Tackle-box collection, rare `404` fish, social preview image.
 
 ### Explicitly not
 
+- CV download, email address, phone number or home address on the site: the CV goes with the application, not onto a public page.
 - Spotify logo, wordmark, green circle, music, album art or API.
 - Analytics, cookies, tracking, backend, database, leaderboards.
 - Multi-level game, physics simulation, game engine without a clear need.
@@ -55,4 +57,4 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 
 ## Open questions
 
-- Real URLs for GitHub profile, LinkedIn, email and the CV PDF.
+- Real URLs for GitHub profile and LinkedIn (owner fills `src/content/links.json`).
