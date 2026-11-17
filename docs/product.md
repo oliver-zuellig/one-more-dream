@@ -15,10 +15,10 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 ### Must (MVP)
 
 - Landing: lake scene, title, subtitle, opening copy, `Cast the line` button and an always visible `Meet Oliver` button.
-- Cast cycle: cast → bobber lands → nibble → `Reel in` (or auto reel after a short delay) → catch card with headline and story → cast again. No reflex or precision gates.
+- Cast cycle: cast → bobber lands → nibble → reel meter (each click, tap or key press fills it, `BOOST` fills it at once, it also fills slowly on its own) → catch card with headline and story → cast again. No reflex or precision gates, no fail state.
 - Exactly three normal catches without duplicates, then the final dream ticket on the fourth cast. Deterministic order in the MVP.
 - Finale message as in the spec, followed by `Meet Oliver`, `View the code` and `Replay`. Never implies a job offer or endorsement.
-- Profile panel ("Hi, I'm Oliver.") reachable in one click from every state. Links to GitHub and LinkedIn from `src/content/links.json`; empty ones are hidden.
+- Profile panel ("Hi, I'm Oliver.") with a photo the owner supplies, reachable in one click from every state. Links to GitHub and LinkedIn from `src/content/links.json`; empty ones are hidden.
 - All catch texts and copy live in `src/content/`, not in game logic.
 - Accessibility: keyboard and touch, visible focus, live region announcing catches, `prefers-reduced-motion` shows results without decorative delay, controls at least 44×44 px.
 - Original SVG illustrations (lake, fisherman, rod, bobber, four catches), editable in Inkscape.
@@ -52,7 +52,7 @@ Spotify recruiters and engineers, plus anyone viewing the public repository. Des
 | Phase                | Content                                                                                                                                   | Done when                                                     |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | M1 Playable skeleton | Scaffold, content catalogue, reducer, placeholder scene, cast/reveal controls, finale, replay, profile panel, keyboard and reduced motion | Full playthrough works with placeholder art; unit tests green |
-| M2 Art and polish    | Inkscape SVG art, cast/splash/reveal animations, responsive layout, final copy, disclaimer, meta tags                                     | Looks finished on phone and desktop                           |
+| M2 Art and polish    | Inkscape SVG art, reel meter, cast/splash/reveal animations, profile photo, favicon, responsive layout, final copy, disclaimer, meta tags                                     | Looks finished on phone and desktop                           |
 | M3 Publish           | Playwright smoke test, Pages workflow, README, link check with the owner                                                                  | Live URL works including refresh; all links verified          |
 
 ## Open questions
