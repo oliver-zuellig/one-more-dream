@@ -2,7 +2,11 @@
 
 A little fishing game about big dreams. Cast a line, catch a few pieces of my story, and find the one more dream at the end.
 
+**Play it:** https://oliver-zuellig.github.io/one-more-dream/
+
 An independent personal project by Oliver Züllig. Not affiliated with or endorsed by Spotify.
+
+Built with Vite, React and TypeScript. No game engine, no tracking, fonts self-hosted. Deployed to GitHub Pages on every push to `main`.
 
 ## Run locally
 
