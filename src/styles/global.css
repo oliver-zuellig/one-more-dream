@@ -19,15 +19,15 @@
   --color-footer: #f3e2c3;
   --radius: 12px;
   --tap-size: 44px;
+  /* Self-hosted (Fontsource, bundled by Vite): pixel face for display text, Nunito for reading. */
+  --font-display: 'Jersey 10', system-ui, sans-serif;
+  --font-body: 'Nunito Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   color: var(--color-ink);
   background: var(--color-paper);
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
+  font-family: var(--font-body);
+  /* Semi-bold so the body text holds its own on the textured parchment. */
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -47,6 +47,17 @@ h1,
 h2,
 p {
   margin: 0;
+}
+
+h1,
+h2,
+.catch-card__name,
+.finale__name {
+  font-family: var(--font-display);
+  /* Jersey 10 is small for its em size: scale it (and any fallback) to a common x-height. */
+  font-size-adjust: 0.56;
+  /* One weight only: no faux bold from the weights set elsewhere. */
+  font-synthesis: none;
 }
 
 .visually-hidden {
@@ -117,7 +128,10 @@ p {
   background: none;
   color: var(--color-wood-ink);
   font: inherit;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size-adjust: 0.56;
+  /* One weight only: no faux bold from the weights set elsewhere. */
+  font-synthesis: none;
   text-decoration: none;
   cursor: pointer;
 }
