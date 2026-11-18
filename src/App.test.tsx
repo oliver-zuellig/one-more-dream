@@ -37,6 +37,13 @@ function reelMeter() {
   return screen.getByRole('progressbar', { name: copy.reelMeter })
 }
 
+/** The illustration is decoration: the catch name is already in the text. */
+function expectDecorativeIllustration(container: HTMLElement, src: string) {
+  const image = container.querySelector('img')
+  expect(image).toHaveAttribute('src', src)
+  expect(image).toHaveAttribute('alt', '')
+}
+
 function meetOliverInHeader() {
   return within(screen.getByRole('banner')).getByRole('button', { name: copy.actions.meetOliver })
 }
@@ -79,10 +86,15 @@ describe('App', () => {
       expect(within(card).getByRole('heading', { name: caught.headline })).toBeInTheDocument()
       expect(within(card).getByText(caught.story)).toBeInTheDocument()
       expect(within(card).getByText(caught.name)).toBeInTheDocument()
+      expectDecorativeIllustration(card, caught.illustration)
     }
 
     await catchOne(user, copy.actions.castAgain)
     for (const line of dream.finaleLines) expect(screen.getByText(line)).toBeInTheDocument()
+    expectDecorativeIllustration(
+      screen.getByRole('region', { name: dreamTicket.headline }),
+      dreamTicket.illustration,
+    )
     expect(screen.getByRole('link', { name: copy.actions.viewCode })).toHaveAttribute(
       'href',
       codeUrl,
