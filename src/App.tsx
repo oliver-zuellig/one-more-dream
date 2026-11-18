@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { CatchCard } from './components/CatchCard'
 import { LakeScene } from './components/LakeScene'
 import { ProfilePanel } from './components/ProfilePanel'
@@ -25,6 +25,8 @@ function announcementFor(state: GameState): string {
  * After each step the pressed button disappears. Move focus to the next action (or the finale
  * heading, or the panel while waiting), but only if focus was in the game or got lost: never
  * pull it out of the profile dialog or the header. The first render leaves focus alone.
+ * A layout effect, so focus moves in the same commit as the DOM: never a frame where the next
+ * action is on screen but focus still sits on the panel.
  */
 function useFocusFollowsPhase(phase: Phase) {
   const panelRef = useRef<HTMLDivElement>(null)
@@ -32,7 +34,7 @@ function useFocusFollowsPhase(phase: Phase) {
   const finaleRef = useRef<HTMLHeadingElement>(null)
   const previousPhase = useRef(phase)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (previousPhase.current === phase) return
     previousPhase.current = phase
     const panel = panelRef.current
