@@ -26,7 +26,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .profile-panel__photo {
@@ -36,6 +37,8 @@
   border: 2px solid var(--profile-forest);
   border-radius: 50%;
   object-fit: cover;
+  /* Tucked a little into the top-left corner, clear of the text. */
+  margin: -0.35rem 0 0 -0.35rem;
 }
 
 .profile-panel__heading {
