@@ -12,6 +12,7 @@ Requires Node 24 (see `.nvmrc`).
 npm ci
 npm run dev       # http://localhost:5173/one-more-dream/
 npm test
+npm run test:e2e  # browser smoke test (first: npx playwright install chromium)
 npm run build
 ```
 
