@@ -1,0 +1,55 @@
+name: deploy
+
+# Builds the site and publishes it to GitHub Pages (https://oliver-zuellig.github.io/one-more-dream/).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time; a newer push waits instead of cancelling a running deploy.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Run .githooks/checks
+        shell: bash
+        run: |
+          set -e
+          tr -d '\r' < .githooks/checks | while IFS= read -r cmd || [ -n "$cmd" ]; do
+            case "$cmd" in ''|'#'*) continue ;; esac
+            echo "::group::$cmd"
+            bash -c "$cmd"
+            echo "::endgroup::"
+          done
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
