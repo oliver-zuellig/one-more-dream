@@ -255,6 +255,15 @@ p {
   }
 }
 
+/* Square pixel-art illustration above the catch text; fixed ratio so nothing jumps while it loads. */
+.catch-illustration {
+  display: block;
+  width: clamp(112px, 34vw, 160px);
+  aspect-ratio: 1;
+  margin: -8px auto 4px;
+  filter: drop-shadow(0 3px 2px rgb(0 0 0 / 25%));
+}
+
 .catch-card__name,
 .finale__name {
   color: var(--color-accent);

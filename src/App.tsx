@@ -122,6 +122,7 @@ export function App() {
 
             {phase === 'finale' && (
               <section className="finale" aria-labelledby="finale-headline">
+                <img className="catch-illustration" src={dreamTicket.illustration} alt="" />
                 <p className="finale__name">{dreamTicket.name}</p>
                 <h2 ref={finaleRef} id="finale-headline" className="finale__headline" tabIndex={-1}>
                   {dreamTicket.headline}

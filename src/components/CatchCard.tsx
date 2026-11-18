@@ -9,6 +9,7 @@ export function CatchCard({ caught }: Props) {
   const headingId = `catch-${caught.id}-headline`
   return (
     <article className="catch-card" aria-labelledby={headingId}>
+      <img className="catch-illustration" src={caught.illustration} alt="" />
       <p className="catch-card__name">{caught.name}</p>
       <h2 id={headingId} className="catch-card__headline">
         {caught.headline}

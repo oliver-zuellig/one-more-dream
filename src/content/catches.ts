@@ -1,3 +1,9 @@
+import aiDuck from '../art/catch-ai-duck.webp'
+import curiousBug from '../art/catch-curious-bug.webp'
+import dockerContainer from '../art/catch-docker-container.webp'
+import javascriptFish from '../art/catch-javascript-fish.webp'
+import messageInABottle from '../art/catch-message-in-a-bottle.webp'
+import swedishCabin from '../art/catch-swedish-cabin.webp'
 import { DREAM_TICKET_ID } from '../game/reducer'
 import { dream } from './dream'
 import type { Catch } from './types'
@@ -9,6 +15,7 @@ export const normalCatches: readonly Catch[] = [
     headline: 'A familiar fish',
     story:
       'JavaScript and Node.js have been part of my daily work for years. I still enjoy discovering what else I can build with them.',
+    illustration: javascriptFish,
   },
   {
     id: 'docker-container',
@@ -16,6 +23,7 @@ export const normalCatches: readonly Catch[] = [
     headline: 'A container at sea',
     story:
       'I moved our building management control system onto Docker and built the pipeline to deliver and update it.',
+    illustration: dockerContainer,
   },
   {
     id: 'curious-bug',
@@ -23,6 +31,7 @@ export const normalCatches: readonly Catch[] = [
     headline: 'A bug? Of course.',
     story:
       "Sometimes the interesting part starts when something doesn't work. I like understanding why.",
+    illustration: curiousBug,
   },
   {
     id: 'ai-duck',
@@ -30,12 +39,14 @@ export const normalCatches: readonly Catch[] = [
     headline: 'An experimental catch',
     story:
       'I experiment with AI agents and development workflows. Some ideas work; others teach me something.',
+    illustration: aiDuck,
   },
   {
     id: 'swedish-cabin',
     name: 'Swedish cabin',
     headline: 'The first dream',
     story: 'Five years ago, living in Sweden felt far away. Now my family and I call Sweden home.',
+    illustration: swedishCabin,
   },
 ]
 
@@ -44,6 +55,7 @@ export const dreamTicket: Catch = {
   name: 'Message in a bottle',
   headline: 'One more dream',
   story: dream.finaleLines.join(' '),
+  illustration: messageInABottle,
 }
 
 /** The three normal catches of a playthrough, in order. */

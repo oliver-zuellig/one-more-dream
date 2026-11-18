@@ -21,6 +21,12 @@ describe('catch catalogue', () => {
     for (const line of dream.finaleLines) expect(dreamTicket.story).toContain(line)
   })
 
+  it('gives every catch, the dream ticket included, its own illustration', () => {
+    const all = [...normalCatches, dreamTicket]
+    for (const c of all) expect(c.illustration, c.id).toMatch(/\S/)
+    expect(new Set(all.map((c) => c.illustration)).size).toBe(all.length)
+  })
+
   it('throws on an unknown catch id', () => {
     expect(() => getCatch('nope')).toThrow()
   })

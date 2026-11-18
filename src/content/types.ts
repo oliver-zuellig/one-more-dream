@@ -4,6 +4,8 @@ export type Catch = {
   readonly name: string
   readonly headline: string
   readonly story: string
+  /** URL of the decorative pixel-art illustration shown with the catch. */
+  readonly illustration: string
 }
 
 export type ProfileLink = {
